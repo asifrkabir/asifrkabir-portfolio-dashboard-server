@@ -5,7 +5,7 @@ import config from "../../config";
 import AppError from "../../errors/AppError";
 import { TImageFiles } from "../../interface/image.interface";
 import { createToken } from "../auth/auth.utils";
-import { userSearchableFields } from "./user.constant";
+import { USER_ROLE_ENUM, userSearchableFields } from "./user.constant";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
 import { encryptPassword, getExistingUserById } from "./user.utils";
@@ -55,7 +55,7 @@ const createUser = async (payload: TUser, images: TImageFiles) => {
   }
 
   payload.password = await encryptPassword(payload.password);
-  // payload.role = USER_ROLE_ENUM.user;
+  payload.role = USER_ROLE_ENUM.user;
 
   const result = await User.create(payload);
 

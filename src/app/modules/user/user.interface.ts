@@ -4,8 +4,8 @@ export type TUser = {
   name: string;
   email: string;
   password: string;
-  role: "admin" | "user" | "vendor";
-  profilePicture: string;
+  role: "admin" | "user";
+  profilePicture?: string;
   isSuspended: boolean;
   isActive: boolean;
 };
