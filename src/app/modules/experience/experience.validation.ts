@@ -8,7 +8,6 @@ const createExperienceValidationSchema = z.object({
     endDate: z.coerce.date().optional(),
     description: z.string().min(1).optional(),
     technologies: z.array(z.string()).optional().default([]),
-    isActive: z.boolean().default(true),
   }),
 });
 
@@ -20,7 +19,6 @@ const updateExperienceValidationSchema = z.object({
     endDate: z.coerce.date().optional(),
     description: z.string().optional(),
     technologies: z.array(z.string()).optional(),
-    isActive: z.boolean().optional(),
   }),
 });
 
