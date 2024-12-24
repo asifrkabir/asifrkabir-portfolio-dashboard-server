@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { SkillService } from "./skill.service";
+import { TImageFiles } from "../../interface/image.interface";
 
 const getSkillById = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -37,7 +38,10 @@ const getAllSkills = catchAsync(async (req, res) => {
 });
 
 const createSkill = catchAsync(async (req, res) => {
-  const result = await SkillService.createSkill(req.body);
+  const result = await SkillService.createSkill(
+    req.body,
+    req.files as TImageFiles
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -50,7 +54,11 @@ const createSkill = catchAsync(async (req, res) => {
 const updateSkill = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  const result = await SkillService.updateSkill(id, req.body);
+  const result = await SkillService.updateSkill(
+    id,
+    req.body,
+    req.files as TImageFiles
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

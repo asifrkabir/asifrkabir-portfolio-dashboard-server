@@ -5,6 +5,7 @@ import { TSkill } from "./skill.interface";
 import { Skill } from "./skill.model";
 import { skillSearchableFields } from "./skill.constant";
 import { getExistingSkillById } from "./skill.utils";
+import { TImageFiles } from "../../interface/image.interface";
 
 const getSkillById = async (id: string) => {
   const result = await Skill.findOne({ _id: id, isActive: true });
@@ -28,16 +29,36 @@ const getAllSkills = async (query: Record<string, unknown>) => {
   return { meta, result };
 };
 
-const createSkill = async (payload: TSkill) => {
+const createSkill = async (payload: TSkill, images: TImageFiles) => {
+  const { logos } = images;
+
+  if (logos && logos.length > 0) {
+    payload.logo = logos[0]?.path;
+  }
+
   const result = await Skill.create(payload);
   return result;
 };
 
-const updateSkill = async (id: string, payload: Partial<TSkill>) => {
+const updateSkill = async (
+  id: string,
+  payload: Partial<TSkill>,
+  images: TImageFiles
+) => {
   const existingSkill = await getExistingSkillById(id);
 
   if (!existingSkill) {
     throw new AppError(httpStatus.NOT_FOUND, "Skill not found");
+  }
+
+  const { logos } = images;
+
+  // New Logo
+  if (logos && logos.length > 0) {
+    payload.logo = logos[0]?.path;
+  } else if (payload.logo === null) {
+    // Remove Logo
+    payload.logo = "";
   }
 
   const result = await Skill.findOneAndUpdate({ _id: id }, payload, {
