@@ -13,7 +13,6 @@ router.get("/", InquiryController.getAllInquiries);
 
 router.post(
   "/",
-  auth(USER_ROLE_ENUM.admin),
   validateRequest(InquiryValidations.createInquiryValidationSchema),
   InquiryController.createInquiry
 );
