@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import express, { Application, NextFunction, Request, Response } from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
-import router from "./app/routes";
+import cors from "cors";
+import express, { Application, NextFunction, Request, Response } from "express";
+import config from "./app/config";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
-import config from "./app/config";
+import router from "./app/routes";
 
 const app: Application = express();
 
 app.use(
   cors({
-    origin: [config.client_url as string],
+    origin: [config.client_url as string, config.portfolio_url as string],
     credentials: true,
   })
 );
