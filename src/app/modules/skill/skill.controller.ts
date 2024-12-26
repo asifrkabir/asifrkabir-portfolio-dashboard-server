@@ -20,19 +20,21 @@ const getSkillById = catchAsync(async (req, res) => {
 const getAllSkills = catchAsync(async (req, res) => {
   const result = await SkillService.getAllSkills(req.query);
 
-  if (result) {
+  if (result?.result?.length <= 0) {
     sendResponse(res, {
+      success: false,
       statusCode: httpStatus.OK,
-      success: true,
-      message: "Skills retrieved successfully",
-      data: result,
+      message: "No Data Found",
+      meta: result.meta,
+      data: result?.result,
     });
   } else {
     sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: "No Data Found",
-      data: result,
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Skills retrieved successfully",
+      meta: result.meta,
+      data: result.result,
     });
   }
 });
